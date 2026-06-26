@@ -12,6 +12,3 @@ Route::get('/inventory-adjustments', [InventoryAdjustmentController::class, 'ind
 Route::post('/inventory-adjustments', [InventoryAdjustmentController::class, 'store']);
 Route::get('/inventory-adjustments/{inventoryAdjustment}', [InventoryAdjustmentController::class, 'show']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
