@@ -50,11 +50,11 @@ header p { color: var(--text-secondary); font-size: 1.1rem; }
 .table-container { overflow-x: auto; max-height: 500px; overflow-y: auto; }
 .table-container::-webkit-scrollbar { width: 6px; }
 .table-container::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 3px; }
-.inventory-table { width: 100%; border-collapse: collapse; text-align: left; }
+.inventory-table { width: 100%; border-collapse: collapse; text-align: start; }
 .inventory-table th { padding: 1rem; color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; background: var(--glass-bg); backdrop-filter: blur(10px); }
 .inventory-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-primary); vertical-align: middle; }
 .inventory-table tr:hover td { background: rgba(255,255,255,0.02); }
-.badge-sku { font-size: 0.75rem; background: rgba(59,130,246,0.2); color: #93c5fd; padding: 0.2rem 0.5rem; border-radius: 4px; margin-left: 0.5rem; font-family: monospace; }
+.badge-sku { font-size: 0.75rem; background: rgba(59,130,246,0.2); color: #93c5fd; padding: 0.2rem 0.5rem; border-radius: 4px; margin-inline-start: 0.5rem; font-family: monospace; }
 .qty-badge { font-weight: bold; background: rgba(16,185,129,0.15); color: #6ee7b7; padding: 0.3rem 0.6rem; border-radius: 1rem; display: inline-block; }
 .btn-action { background: var(--accent-color); color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.85rem; transition: background 0.2s; }
 .btn-action:hover { background: #2563eb; }
@@ -81,8 +81,12 @@ header p { color: var(--text-secondary); font-size: 1.1rem; }
 label { font-size: 0.85rem; color: var(--text-secondary); }
 input, select, textarea { background: rgba(15, 23, 42, 0.8); border: 1px solid var(--glass-border); color: white; padding: 0.75rem 1rem; border-radius: 0.5rem; font-family: inherit; font-size: 0.95rem; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 2px var(--accent-glow); }
+select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 1em; padding-right: 2.5rem; }
+[dir="rtl"] select { background-position: left 1rem center; padding-right: 1rem; padding-left: 2.5rem; }
+.github-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; border-radius: 2rem; text-decoration: none; font-size: 0.9rem; transition: all 0.2s; margin-top: 1rem; }
+.github-btn:hover { background: rgba(255,255,255,0.2); }
 
-.diff-indicator { font-size: 0.85rem; text-align: right; margin-top: 0.2rem; }
+.diff-indicator { font-size: 0.85rem; text-align: end; margin-top: 0.2rem; }
 .diff-indicator.positive { color: var(--success); }
 .diff-indicator.negative { color: var(--danger); }
 
@@ -100,7 +104,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .dot.red { background: #ff5f56; }
 .dot.yellow { background: #ffbd2e; }
 .dot.green { background: #27c93f; }
-.terminal-title { margin-left: auto; font-size: 0.75rem; color: #8b949e; font-family: monospace; }
+.terminal-title { margin-inline-start: auto; font-size: 0.75rem; color: #8b949e; font-family: monospace; }
 .terminal pre { padding: 1rem; overflow-y: auto; overflow-x: hidden; flex: 1; white-space: pre-wrap; word-wrap: break-word; }
 .terminal code { font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; color: #c9d1d9; }
 
@@ -137,13 +141,14 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
     
     /* Table scrolling on mobile */
     .table-container { max-height: 400px; }
-    table th, table td { padding: 0.75rem 0.5rem; font-size: 0.85rem; }
-    .search-box { width: 100%; margin-bottom: 1rem; }
+    table th, table td { padding: 0.75rem 0.5rem; font-size: 0.85rem; white-space: nowrap; }
     
-    /* Modal & Forms */
+    /* Panel & Header */
+    .panel-header { flex-direction: column; align-items: stretch; gap: 1rem; }
+    .panel-header .search-box { width: 100%; margin-bottom: 0; }
     .modal-content { max-width: 95%; margin: 1rem; padding: 1.5rem 1rem; }
     .form-group { flex-direction: column; align-items: stretch; gap: 0.5rem; }
-    .diff-indicator { min-width: auto; text-align: left; }
+    .diff-indicator { min-width: auto; text-align: start; }
     input, select, textarea { font-size: 16px; width: 100%; } /* Prevent iOS zoom and stretch */
     select { min-height: 44px; } /* Larger tap target for dropdown */
     

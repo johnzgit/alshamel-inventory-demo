@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('type'); // e.g., 'inventory_adjustment'
             $table->string('code')->unique();
-            $table->string('description');
+            $table->json('description');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

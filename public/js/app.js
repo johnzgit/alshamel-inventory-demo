@@ -80,13 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateDiff() {
         const newQ = parseInt(newQuantityInput.value);
         if (isNaN(newQ) || !currentEditingBatch) {
-            diffIndicator.textContent = 'Variance: --';
+            diffIndicator.textContent = (i18n[currentLang]?.variance || 'Variance: ') + '--';
             diffIndicator.className = 'diff-indicator';
             return;
         }
 
         const diff = newQ - currentEditingBatch.quantity;
-        diffIndicator.textContent = `Variance: ${diff > 0 ? '+' : ''}${diff}`;
+        diffIndicator.textContent = (i18n[currentLang]?.variance || 'Variance: ') + `${diff > 0 ? '+' : ''}${diff}`;
         diffIndicator.className = `diff-indicator ${diff > 0 ? 'positive' : (diff < 0 ? 'negative' : '')}`;
     }
 
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Processing...';
+        submitBtn.textContent = i18n[currentLang]?.btn_processing || 'Processing...';
         hideMessage();
 
         try {
@@ -119,20 +119,20 @@ document.addEventListener('DOMContentLoaded', () => {
             displayResponse(data, response.status);
 
             if (response.ok) {
-                showMessage('Inventory adjusted successfully!', 'success');
+                showMessage(i18n[currentLang]?.msg_success || 'Inventory adjusted successfully!', 'success');
                 await fetchBatches(); // Refresh table
                 setTimeout(() => {
                     if(!adjustModal.classList.contains('hidden')) close();
                 }, 1500);
             } else {
-                showMessage(data.message || 'An error occurred', 'error');
+                showMessage(data.message || (i18n[currentLang]?.msg_error || 'An error occurred'), 'error');
             }
         } catch (error) {
             showMessage(error.message, 'error');
             apiResponseCode.textContent = `Error: ${error.message}`;
         } finally {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Confirm Adjustment';
+            submitBtn.textContent = i18n[currentLang]?.btn_confirm || 'Confirm Adjustment';
         }
     });
 
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allBatches = data.data;
             renderTable(allBatches);
         } catch (e) {
-            inventoryList.innerHTML = `<tr><td colspan="5" style="color:var(--danger)">Failed to load data.</td></tr>`;
+            inventoryList.innerHTML = `<tr><td colspan="5" style="color:var(--danger)">${i18n[currentLang]?.msg_failed_load || 'Failed to load data.'}</td></tr>`;
         }
     }
 
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch('/api/reasons');
             const data = await res.json();
             
-            reasonSelect.innerHTML = '<option value="">-- Select a reason --</option>';
+            reasonSelect.innerHTML = `<option value="">${i18n[currentLang]?.loading_reasons || '-- Select a reason --'}</option>`;
             data.data.forEach(reason => {
                 const opt = document.createElement('option');
                 opt.value = reason.id;
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderTable(batches) {
         if (batches.length === 0) {
-            inventoryList.innerHTML = '<tr><td colspan="5" style="text-align:center;">No batches found</td></tr>';
+            inventoryList.innerHTML = `<tr><td colspan="5" style="text-align:center;">${i18n[currentLang]?.no_data || 'No batches found'}</td></tr>`;
             return;
         }
 
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td><span style="font-family:monospace; color:var(--accent-color)">${batch.batch_number}</span></td>
                 <td><span class="qty-badge">${batch.quantity}</span></td>
                 <td>
-                    <button class="btn-action" data-id="${batch.id}">Adjust</button>
+                    <button class="btn-action" data-id="${batch.id}" data-i18n="adjust_btn">${i18n[currentLang]?.adjust_btn || 'Adjust'}</button>
                 </td>
             `;
             inventoryList.appendChild(tr);
@@ -246,6 +246,11 @@ document.addEventListener('DOMContentLoaded', () => {
             apiResponseCode.textContent = `Error: ${e.message}`;
         }
     };
+
+    document.addEventListener('languageChanged', () => {
+        fetchBatches();
+        fetchReasons();
+    });
 });
 
     window.testPostEndpoint = async function(url, payloadStr) {

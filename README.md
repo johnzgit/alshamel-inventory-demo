@@ -12,6 +12,14 @@ This is a modern, standalone Full-Stack Laravel 11 application designed for mana
 
 ## 🚀 Key Features & Architectural Decisions
 
+### 🌟 Live Features Demonstration
+
+### Core Application
+- 🌐 **Full Multi-Language (i18n) & RTL**: Supports English, Chinese, and Arabic natively. Automatically detects device language. Instantly swaps layout to RTL (Right-to-Left) via CSS Logical Properties when switching to Arabic. Translations are stored in JSON columns in the database.
+- 📦 **Inventory Adjustments**: Real-time mock adjustment panel with SKU searching.
+- 📊 **Dynamic Variance Calculation**: Visual indicator showing positive/negative variance during physical count entry.
+- 🎨 **Glassmorphism UI**: High-end modern styling with backdrop blurs, animated blobs, and a dark-mode first design.
+
 ### 1. Concurrency Safety (Pessimistic Locking)
 When adjusting inventory in a real warehouse, multiple operators might scan or update the same batch simultaneously.
 To prevent **race conditions** and stock miscalculations, the core adjustment logic is wrapped in `DB::transaction()` using `lockForUpdate()` on the `Batch` model. This guarantees that stock increments/decrements are mathematically sound even under heavy concurrent load.
