@@ -301,8 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchReasons();
         fetchHistory();
     });
-});
-
     window.testPostEndpoint = async function(url, payloadStr) {
         apiResponseCode.textContent = `POST ${url}\nSending payload...`;
         try {
@@ -326,3 +324,4 @@ document.addEventListener('DOMContentLoaded', () => {
             apiResponseCode.textContent = `Error parsing JSON or network error:\n${e.message}`;
         }
     };
+});
