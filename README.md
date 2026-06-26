@@ -4,7 +4,7 @@
 
 <div align="center">
 
-**[🔥 Live Demo: Try the Interactive UI Here](https://alshamel-inventory-demo-production.up.railway.app/)**
+**[🔥 Live Demo: Try the Interactive UI Here](https://alshamel-inventory-demo.up.railway.app/)**
 
 </div>
 
