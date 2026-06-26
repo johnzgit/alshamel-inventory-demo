@@ -24,30 +24,57 @@
         </header>
 
         <main class="grid-layout">
-            <!-- Left Side: Inventory List -->
-            <section class="glass-panel inventory-section">
-                <div class="panel-header" style="justify-content: space-between;">
-                    <h2><span class="icon">📦</span> <span data-i18n="inventory_title">Current Inventory</span></h2>
-                    <input type="text" id="searchInput" placeholder="Search SKU or Batch..." class="search-box" data-i18n="search_placeholder">
-                </div>
-                
-                <div class="table-container">
-                    <table class="inventory-table">
-                        <thead>
-                            <tr>
-                                <th data-i18n="th_product">Product / SKU</th>
-                                <th data-i18n="th_warehouse">Warehouse</th>
-                                <th data-i18n="th_batch">Batch</th>
-                                <th data-i18n="th_qty">Qty</th>
-                                <th data-i18n="th_action">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inventoryList">
-                            <tr><td colspan="5" style="text-align: center;" data-i18n="loading_data">Loading inventory data...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+            <!-- Left Side: Data Panels -->
+            <div class="left-panels" style="display: flex; flex-direction: column; gap: 2rem; min-width: 0;">
+                <!-- Inventory Section -->
+                <section class="glass-panel inventory-section">
+                    <div class="panel-header" style="justify-content: space-between;">
+                        <h2><span class="icon">📦</span> <span data-i18n="inventory_title">Current Inventory</span></h2>
+                        <input type="text" id="searchInput" placeholder="Search SKU or Batch..." class="search-box" data-i18n="search_placeholder">
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="th_product">Product / SKU</th>
+                                    <th data-i18n="th_warehouse">Warehouse</th>
+                                    <th data-i18n="th_batch">Batch</th>
+                                    <th data-i18n="th_qty">Qty</th>
+                                    <th data-i18n="th_action">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryList">
+                                <tr><td colspan="5" style="text-align: center;" data-i18n="loading_data">Loading inventory data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- History Section -->
+                <section class="glass-panel history-section">
+                    <div class="panel-header">
+                        <h2><span class="icon">🕒</span> <span data-i18n="history_title">Adjustment History</span></h2>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="th_date">Date</th>
+                                    <th data-i18n="th_batch">Batch #</th>
+                                    <th data-i18n="th_reason">Reason</th>
+                                    <th data-i18n="th_diff">Variance</th>
+                                    <th data-i18n="th_note">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyList">
+                                <tr><td colspan="5" style="text-align: center;" data-i18n="loading_history">Loading history data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
 
             <!-- Right Side: API Playground -->
             <section class="glass-panel api-playground">

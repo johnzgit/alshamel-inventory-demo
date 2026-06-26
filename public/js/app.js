@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialization
     fetchBatches();
     fetchReasons();
+    fetchHistory();
 
     // Search Filtering
     searchInput.addEventListener('input', (e) => {
@@ -121,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 showMessage(i18n[currentLang]?.msg_success || 'Inventory adjusted successfully!', 'success');
                 await fetchBatches(); // Refresh table
+                await fetchHistory(); // Refresh history
                 setTimeout(() => {
                     if(!adjustModal.classList.contains('hidden')) close();
                 }, 1500);
@@ -165,6 +167,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function fetchHistory() {
+        try {
+            const res = await fetch('/api/inventory-adjustments');
+            const data = await res.json();
+            renderHistoryTable(data.data);
+        } catch (e) {
+            document.getElementById('historyList').innerHTML = `<tr><td colspan="5" style="color:var(--danger)">Failed to load history.</td></tr>`;
+        }
+    }
+
     function renderTable(batches) {
         if (batches.length === 0) {
             inventoryList.innerHTML = `<tr><td colspan="5" style="text-align:center;">${i18n[currentLang]?.no_data || 'No batches found'}</td></tr>`;
@@ -196,6 +208,33 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', (e) => {
                 openModal(e.target.getAttribute('data-id'));
             });
+        });
+    }
+
+    function renderHistoryTable(history) {
+        const historyList = document.getElementById('historyList');
+        if (history.length === 0) {
+            historyList.innerHTML = `<tr><td colspan="5" style="text-align:center;">${i18n[currentLang]?.no_history || 'No adjustment history found'}</td></tr>`;
+            return;
+        }
+
+        historyList.innerHTML = '';
+        history.forEach(item => {
+            const tr = document.createElement('tr');
+            
+            // Format date safely
+            const date = new Date(item.created_at).toLocaleString();
+            const diffColor = item.diff_quantity > 0 ? 'var(--success)' : 'var(--danger)';
+            const diffSign = item.diff_quantity > 0 ? '+' : '';
+
+            tr.innerHTML = `
+                <td><span style="color:var(--text-secondary); font-size: 0.85rem;">${date}</span></td>
+                <td><span style="font-family:monospace; color:var(--accent-color)">${item.batch?.batch_number || 'N/A'}</span></td>
+                <td>${item.reason?.description || 'N/A'}</td>
+                <td><span style="color:${diffColor}; font-weight: bold;">${diffSign}${item.diff_quantity}</span></td>
+                <td><span style="color:var(--text-secondary); font-size: 0.9rem;">${item.note || '-'}</span></td>
+            `;
+            historyList.appendChild(tr);
         });
     }
 
