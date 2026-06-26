@@ -4,24 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
+use App\Http\Resources\BatchResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class BatchController extends Controller
 {
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
         $batches = Batch::with(['product', 'warehouse'])->get();
-        
-        return response()->json([
-            'data' => $batches->map(function ($batch) {
-                return [
-                    'id' => $batch->id,
-                    'batch_number' => $batch->batch_number,
-                    'quantity' => $batch->quantity,
-                    'product_name' => $batch->product->name,
-                    'warehouse_name' => $batch->warehouse->name,
-                    'display_label' => "{$batch->batch_number} - {$batch->product->name} ({$batch->quantity} pcs)"
-                ];
-            })
-        ]);
+        return BatchResource::collection($batches);
     }
 }
