@@ -111,7 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Accept-Language': currentLang
                 },
                 body: JSON.stringify(payload)
             });
@@ -141,7 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // API Helpers
     async function fetchBatches() {
         try {
-            const res = await fetch('/api/batches');
+            const res = await fetch('/api/batches', {
+                headers: { 'Accept-Language': currentLang }
+            });
             const data = await res.json();
             allBatches = data.data;
             renderTable(allBatches);
@@ -152,7 +155,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchReasons() {
         try {
-            const res = await fetch('/api/reasons');
+            const res = await fetch('/api/reasons', {
+                headers: { 'Accept-Language': currentLang }
+            });
             const data = await res.json();
             
             reasonSelect.innerHTML = `<option value="">${i18n[currentLang]?.loading_reasons || '-- Select a reason --'}</option>`;
@@ -169,7 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchHistory() {
         try {
-            const res = await fetch('/api/inventory-adjustments');
+            const res = await fetch('/api/inventory-adjustments', {
+                headers: { 'Accept-Language': currentLang }
+            });
             const data = await res.json();
             renderHistoryTable(data.data);
         } catch (e) {
@@ -278,7 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.testEndpoint = async function(method, url) {
         apiResponseCode.textContent = `${method} ${url}\nFetching...`;
         try {
-            const res = await fetch(url, { method });
+            const res = await fetch(url, { 
+                method,
+                headers: { 'Accept-Language': currentLang }
+            });
             const data = await res.json();
             displayResponse(data, res.status);
         } catch (e) {
@@ -289,6 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('languageChanged', () => {
         fetchBatches();
         fetchReasons();
+        fetchHistory();
     });
 });
 
@@ -300,7 +311,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Accept': 'application/json',
+                    'Accept-Language': currentLang
                 },
                 body: JSON.stringify(payload)
             });
